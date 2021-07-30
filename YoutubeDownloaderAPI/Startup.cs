@@ -48,8 +48,8 @@ namespace YoutubeDownloaderAPI
             services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
 
             services.AddCors(o => {
-                o.AddPolicy("AllowAll", builder => {
-                    builder.AllowAnyMethod().AllowAnyHeader().AllowAnyOrigin();
+                o.AddPolicy("AllowClientOnly", builder => {
+                    builder.AllowAnyMethod().AllowAnyHeader().WithOrigins("https://yt-dloader.vercel.app");
                 });
             });
             services.AddControllers();
@@ -69,7 +69,7 @@ namespace YoutubeDownloaderAPI
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "YoutubeDownloaderAPI v1"));
             }
 
-            app.UseCors("AllowAll");
+            app.UseCors("AllowClientOnly");
 
             app.UseHttpsRedirection();
 
